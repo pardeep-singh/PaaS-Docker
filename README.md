@@ -13,7 +13,7 @@ PaaS-Docker currently supports linux enviroments.
 Install Flask
 
     pip install flask
-Install Docker-py:
+Install Docker-py
 
     pip install docker-py
 Install docker and github cli depanding upon your enviroment.

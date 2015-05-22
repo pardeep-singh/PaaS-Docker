@@ -6,7 +6,7 @@ Just add a webhook to github repository having a dockerfile and see every push m
 
 ### Requirements <hr>
 
-PaaS-Docker is compatible with Python version 2 and 3; and require Flask,Docker,Docker-py and git cli to be installed.
+PaaS-Docker is compatible with Python version 2 and 3; and require Flask,Docker,Docker-py and git to be installed.
 
 PaaS-Docker currently supports linux enviroments.
 
@@ -16,7 +16,7 @@ Install Flask
 Install Docker-py
 
     pip install docker-py
-Install docker and git cli depending upon your enviroment.
+Install docker and git depending upon your enviroment.
 
 ### Usage <hr>
 

@@ -1,15 +1,12 @@
 from docker import Client
 import docker
-
-def load_dockerConfig():
-    with open('dockerConfig.json') as config_file:    
-        return json.load(config_file)
+from . import utility
 
 def getDockerConn():
-	config = load_dockerConfig()
+	config = utility.load_dockerConfig()
 	print("Docker:",config.get('docker_deamon'))
 	print("Version:",config.get('docker_server_version'))
-	return Client(base_url=config.get('docker_deamon'),version=config.get('docker_server_version'))
+#	return Client(base_url=config.get('docker_deamon'),version=config.get('docker_server_version'))
 	
 def getPortsUsed(dockerImageNamespace,dockerImageName):
 	conn = getDockerConn()

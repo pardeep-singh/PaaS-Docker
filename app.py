@@ -27,7 +27,7 @@ def not_found(error):
     return "404 error",404
 
 def load_config():
-    with open('config.json') as config_file:    
+    with open('appConfig.json') as config_file:    
         return json.load(config_file)
 
 if __name__ == '__main__':

@@ -6,6 +6,10 @@ import shutil
 import os
 import json
 
+def load_dockerConfig():
+	with open('dockerConfig.json') as config_file:
+		return json.load(config_file)
+
 def removeDirIfExist(localRepoPath):
     if os.path.isdir(localRepoPath):
         print("dir exit going to remove it")

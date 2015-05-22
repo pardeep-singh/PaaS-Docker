@@ -2,9 +2,13 @@ PaaS-Docker
 ==========
 A PaaS tool to deploy applications on your servers.
 
-## Requirements
+Just add a webhook to github repositry having a dockerfile and see every push made on repositry be deployed in a seconds. 
 
-PaaS-Docker is compatible with Python version 2 and 3; and require Flask,Docker,Docker-py and github cli to be installed.PaaS-Docker currently supports linux enviroments.
+### Requirements <hr>
+
+PaaS-Docker is compatible with Python version 2 and 3; and require Flask,Docker,Docker-py and github cli to be installed.
+
+PaaS-Docker currently supports linux enviroments.
 
 Install Flask
 
@@ -14,7 +18,7 @@ Install Docker-py:
     pip install docker-py
 Install docker and github cli depanding upon your enviroment.
 
-## Usage
+### Usage <hr>
 
 1) Clone the repository on your local machine
 

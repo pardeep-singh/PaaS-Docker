@@ -12,7 +12,7 @@ def load_dockerConfig():
 		return json.load(config_file)
 
 def removeDirIfExist(dirPath):
-    if os.path.isdir(localRepoPath):
+    if os.path.isdir(dirPath):
         print("dir exit going to remove it")
         shutil.rmtree(dirPath)
     else:

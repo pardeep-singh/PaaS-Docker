@@ -15,7 +15,7 @@ def filterRequestData(requestData):
     requestDict['branchName'] = requestDict['ref'][11:]
    
     requestDict['repoFullName'] = requestDict['repoFullName']+'/'+requestDict['branchName']
-    requestDict['localRepoPath'] = utility.getLocalReposPath()+'/'+requestDict['repoFullName']
+    requestDict['localRepoPath'] = utility.getLocalReposPath()+requestDict['repoFullName']
 
     requestDict['ownerName'] = requestDict['ownerName'].lower()
     requestDict['ownerName'] = requestDict['ownerName'].replace('-','_')

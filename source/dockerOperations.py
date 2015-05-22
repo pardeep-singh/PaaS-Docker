@@ -21,10 +21,10 @@ def getPortsUsed(dockerImageNamespace,dockerImageName):
 			return portsUsed
 	return portsUsed
 	
-def buildImage(repoFullName,dockerImageNamespace,dockerImageName):
+def buildImage(localRepoPath,dockerImageNamespace,dockerImageName):
 	conn = getDockerConn()
 	buildResponse = [line for line in conn.build(
-		path=repoFullName,tag=dockerImageNamespace+'/'+dockerImageName,rm=True
+		path=localRepoPath,tag=dockerImageNamespace+'/'+dockerImageName,rm=True
 		)]
 	return buildResponse
 	

@@ -15,7 +15,7 @@ def filterRequestData(requestData):
     requestDict['branchName'] = requestDict['ref'][11:]
    
     requestDict['repoFullName'] = requestDict['repoFullName']+'/'+requestDict['branchName']
-    requestDict['localRepoPath'] = os.getcwd()+'/'+requestDict['repoFullName']
+    requestDict['localRepoPath'] = utility.getLocalReposPath()+'/'+requestDict['repoFullName']
 
     requestDict['ownerName'] = requestDict['ownerName'].lower()
     requestDict['ownerName'] = requestDict['ownerName'].replace('-','_')
@@ -31,11 +31,11 @@ def main(requestData):
     utility.removeDirIfExist(requestDataDict['localRepoPath'])
     
     try:
-        github.clone(requestDataDict['branchName'],requestDataDict['repoCloneUrl'],requestDataDict['repoFullName'])
+        github.clone(requestDataDict['branchName'],requestDataDict['repoCloneUrl'],requestDataDict['localRepoPath'])
         portsUsed = docker.getPortsUsed(requestDataDict['dockerImageNamespace'],requestDataDict['dockerImageName'])
-        buildResponse = docker.buildImage(requestDataDict['repoFullName'],requestDataDict['dockerImageNamespace'],requestDataDict['dockerImageName'])
+        buildResponse = docker.buildImage(requestDataDict['localRepoPath'],requestDataDict['dockerImageNamespace'],requestDataDict['dockerImageName'])
         print(buildResponse)
-        portsToBeUsed = utility.getPorts(portsUsed,requestDataDict['repoFullName'])
+        portsToBeUsed = utility.getPorts(portsUsed,requestDataDict['localRepoPath'])
         print(portsToBeUsed)
         docker.createContainer(requestDataDict['dockerImageNamespace'],requestDataDict['dockerImageName'],portsToBeUsed)
         return jsonify(success=True),200

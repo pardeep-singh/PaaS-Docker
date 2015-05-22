@@ -5,18 +5,32 @@ import re
 import shutil
 import os
 import json
+from os.path import expanduser
 
 def load_dockerConfig():
 	with open('dockerConfig.json') as config_file:
 		return json.load(config_file)
 
-def removeDirIfExist(localRepoPath):
+def removeDirIfExist(dirPath):
     if os.path.isdir(localRepoPath):
         print("dir exit going to remove it")
-        shutil.rmtree(localRepoPath)
+        shutil.rmtree(dirPath)
     else:
        print("dir doesnt exits")
 
+def getSystemHomePath():
+    homePath = expanduser('~')
+    print(homePath)
+    return homePath
+    
+def createIfDirDoesntExist(dirPath):
+    if not os.path.exists(dirPath):
+        os.makedirs(dirPath)
+    return dirPath
+        
+def getLocalReposPath():
+    return createIfDirDoesntExist(getSystemHomePath()+'/GitRepos/')
+       
 def getAvailablePort():
     dummySocket = socket.socket()
     dummySocket.bind(('',0))
@@ -36,14 +50,14 @@ def getExposedPortNumber(dockerFilePath):
                 if 'EXPOSE' in line or 'expose' in line:
                     exitFlag=True
 
-def getPorts(portsUsed,repoFullName):
+def getPorts(portsUsed,localRepoPath):
     portToBeUsed = {}
     if len(portsUsed):
         portToBeUsed['publicPort'] = portsUsed[0]['PublicPort']
         portToBeUsed['privatePort'] = portsUsed[0]['PrivatePort']
     else:
         portToBeUsed['publicPort'] = getAvailablePort()
-        portToBeUsed['privatePort'] = int(getExposedPortNumber(repoFullName+'/Dockerfile'))
+        portToBeUsed['privatePort'] = int(getExposedPortNumber(localRepoPath+'/Dockerfile'))
     return portToBeUsed
 
 def branchNameGenerator(size=6, chars=string.ascii_lowercase + string.digits):

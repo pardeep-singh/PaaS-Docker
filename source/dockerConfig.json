@@ -1,0 +1,4 @@
+{
+    "docker_deamon":"unix://var/run/docker.sock",
+    "docker_server_version":"1.16"
+}

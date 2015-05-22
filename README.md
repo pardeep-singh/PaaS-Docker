@@ -18,7 +18,7 @@ Install docker and github cli depanding upon your enviroment.
 
 1) Clone the repository on your local machine
 
-    git clone https://www.github.com/boxupp/boxupp.git
+    https://github.com/pardeep-paxcel/PaaS-Docker.git
 2) Change to the cloned directory
 
     cd Paas-Docker

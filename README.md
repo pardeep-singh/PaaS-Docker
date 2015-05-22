@@ -6,12 +6,12 @@ A PaaS tool to deploy applications on your servers.
 
 PaaS-Docker is compatible with Python version 2 and 3; and require Flask,Docker,Docker-py and github cli to be installed.PaaS-Docker currently supports linux enviroments.
 
-Install Flask:
-    pip install flask
+Install Flask
 
+    pip install flask
 Install Docker-py:
+
     pip install docker-py
-    
 Install docker and github cli depanding upon your enviroment.
 
 ## Usage

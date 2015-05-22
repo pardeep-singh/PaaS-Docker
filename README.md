@@ -2,7 +2,7 @@ PaaS-Docker
 ==========
 A PaaS tool to deploy applications on your servers.
 
-Just add a webhook to github repositry having a dockerfile and see every push made on repositry be deployed in a seconds. 
+Just add a webhook to github repository having a dockerfile and see every push made on repository be deployed in a seconds. 
 
 ### Requirements <hr>
 
@@ -29,7 +29,7 @@ Install docker and github cli depanding upon your enviroment.
 3) Run the app.py file
 
     python app.py
-4) Add a webhook to github repositry having Dockerfile and enter your host address and port number in payload url 
+4) Add a webhook to github repository having Dockerfile and enter your host address and port number in payload url 
 
     http://ip:port/hook
   

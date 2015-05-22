@@ -6,7 +6,7 @@ def getDockerConn():
 	config = utility.load_dockerConfig()
 	print("Docker:",config.get('docker_deamon'))
 	print("Version:",config.get('docker_server_version'))
-#	return Client(base_url=config.get('docker_deamon'),version=config.get('docker_server_version'))
+	return Client(base_url=config.get('docker_deamon'),version=config.get('docker_server_version'))
 	
 def getPortsUsed(dockerImageNamespace,dockerImageName):
 	conn = getDockerConn()

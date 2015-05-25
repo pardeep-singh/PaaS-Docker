@@ -32,7 +32,7 @@ Install docker and git depending upon your enviroment.
     cd Paas-Docker
 3) Running the service
 
-    python app.py
+    sudo python app.py
 4) Add a webhook to github repository having Dockerfile and enter your host address and port number in payload url 
 
     http://ip:port/hook

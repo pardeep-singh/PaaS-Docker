@@ -10,8 +10,12 @@ class DataBase:
         def getRecord(self,collectionName,record):
             return self.db[collectionName].find_one(record)
 
+#        def getAllRecord(self):
+#            for record in self.db[collectionName].find():
+#                print(record)
+
         def getAllRecord(self):
-            for record in self.db[collectionName].find():
+            for record in self.db.coll.find():
                 print(record)
 
         def updateRecord(self,collectionName,updateKey,newRecord):

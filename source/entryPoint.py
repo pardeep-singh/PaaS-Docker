@@ -34,6 +34,7 @@ def main(requestData):
     try:
         repContMapping = RepoContainerMapping()
         repContMapping.sayHello()
+        repContMapping.printAllRecords()
 
         github.clone(requestDataDict['branchName'],requestDataDict['repoCloneUrl'],requestDataDict['localRepoPath'])
  

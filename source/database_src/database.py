@@ -5,17 +5,13 @@ class DataBase:
             self.db = client.test
 
         def addRecord(self,collectionName,record):
-            return self.db[collectionName].insert_one(record)
+            return self.db[collectionName].insert_one(record).inserted_id
 
         def getRecord(self,collectionName,record):
             return self.db[collectionName].find_one(record)
 
-#        def getAllRecord(self):
-#            for record in self.db[collectionName].find():
-#                print(record)
-
-        def getAllRecord(self):
-            for record in self.db.coll.find():
+        def getAllRecord(self,collectionName):
+            for record in self.db[collectionName].find():
                 print(record)
 
         def updateRecord(self,collectionName,updateKey,newRecord):

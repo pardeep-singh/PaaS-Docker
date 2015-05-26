@@ -32,8 +32,9 @@ def main(requestData):
     utility.removeDirIfExist(requestDataDict['localRepoPath'])
     
     try:
+        
         repContMapping = RepoContainerMapping()
-        repContMapping.sayHello()
+        repContMapping.saveMapping(requestDataDict)
         repContMapping.printAllRecords()
 
         github.clone(requestDataDict['branchName'],requestDataDict['repoCloneUrl'],requestDataDict['localRepoPath'])

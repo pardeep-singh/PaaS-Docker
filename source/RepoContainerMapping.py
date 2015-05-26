@@ -2,13 +2,13 @@ from .database_src import database
 
 class RepoContainerMapping:
 	def __init__(self):
-		print("hello object created")
-		
-	def sayHello(self):
-		print("hello world")
-		
+		self.dbConn = database.Database()
+		self.COLLECTION_NAME = "RepoContainerMapping"
+				
 	def printAllRecords(self):
-		db = database.DataBase()
-		db.getAllRecord()
+		dbConn.getAllRecord(self.collName)
+		
+	def saveMapping(self,mapping):
+		return dbConn.addRecord(self.COLLECTION_NAME,mapping)
 		
 	

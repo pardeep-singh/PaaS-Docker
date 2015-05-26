@@ -3,6 +3,7 @@ from . import githubOperations as github
 from . import dockerOperations as docker
 import os
 from flask import jsonify
+from .RepoContainerMapping import RepoContainerMapping
 
 def filterRequestData(requestData):
     requestDict = {}
@@ -31,13 +32,21 @@ def main(requestData):
     utility.removeDirIfExist(requestDataDict['localRepoPath'])
     
     try:
+        repContMapping = RepoContainerMapping()
+        repContMapping.sayHello()
+
         github.clone(requestDataDict['branchName'],requestDataDict['repoCloneUrl'],requestDataDict['localRepoPath'])
+ 
         portsUsed = docker.getPortsUsed(requestDataDict['dockerImageNamespace'],requestDataDict['dockerImageName'])
+ 
         buildResponse = docker.buildImage(requestDataDict['localRepoPath'],requestDataDict['dockerImageNamespace'],requestDataDict['dockerImageName'])
         print(buildResponse)
+ 
         portsToBeUsed = utility.getPorts(portsUsed,requestDataDict['localRepoPath'])
         print(portsToBeUsed)
+ 
         docker.createContainer(requestDataDict['dockerImageNamespace'],requestDataDict['dockerImageName'],portsToBeUsed)
+ 
         return jsonify(success=True),200
     except OSError as osError:
         return jsonify(success=False,error=str(osError)),400

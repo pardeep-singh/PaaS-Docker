@@ -24,7 +24,7 @@ def filterRequestData(requestData):
     
     requestDict['dockerImageName'] = requestDict['repoName']+'_'+utility.verifyBranchName(requestDict['branchName'])
     requestDict['dockerImageNamespace'] = requestDict['ownerName']
-	requestDict['dockerImageRepo'] = mapping['dockerImageNamespace']+'/'+mapping['dockerImageName']
+    requestDict['dockerImageRepo'] = requestDict['dockerImageNamespace']+'/'+requestDict['dockerImageName']
 
     return requestDict
 

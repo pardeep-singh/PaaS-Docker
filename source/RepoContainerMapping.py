@@ -8,7 +8,7 @@ class RepoContainerMapping:
 		print("hello world")
 		
 	def printAllRecords(self):
-		db = database.Database()
+		db = database.DataBase()
 		db.getAllRecord()
 		
 	

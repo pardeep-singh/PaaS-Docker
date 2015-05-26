@@ -2,7 +2,7 @@ from .database_src import database
 
 class RepoContainerMapping:
 	def __init__(self):
-		self.dbConn = database.Database()
+		self.dbConn = database.DataBase()
 		self.COLLECTION_NAME = "RepoContainerMapping"
 				
 	def printAllRecords(self):

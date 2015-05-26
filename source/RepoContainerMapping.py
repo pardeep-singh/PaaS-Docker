@@ -6,9 +6,9 @@ class RepoContainerMapping:
 		self.COLLECTION_NAME = "RepoContainerMapping"
 				
 	def printAllRecords(self):
-		dbConn.getAllRecord(self.collName)
+		self.dbConn.getAllRecord(self.collName)
 		
 	def saveMapping(self,mapping):
-		return dbConn.addRecord(self.COLLECTION_NAME,mapping)
+		return self.dbConn.addRecord(self.COLLECTION_NAME,mapping)
 		
 	

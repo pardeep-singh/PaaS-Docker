@@ -11,4 +11,14 @@ class RepoContainerMapping:
 	def saveMapping(self,mapping):
 		return self.dbConn.addRecord(self.COLLECTION_NAME,mapping)
 		
+	def getMapping(self,mappingKey):
+		return self.dbConn.getRecord(self.COLLECTION_NAME,mappingKey)
+	
+	def checkMapping(mapping):
+		oldMapping = self.getMapping({'dockerImageRepo':mapping['dockerImageRepo']})
+		print(oldMapping)
+		if not oldMapping:
+			print(self.saveMapping(mapping))
+			
+		
 	

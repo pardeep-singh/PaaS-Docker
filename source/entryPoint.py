@@ -24,6 +24,8 @@ def filterRequestData(requestData):
     
     requestDict['dockerImageName'] = requestDict['repoName']+'_'+utility.verifyBranchName(requestDict['branchName'])
     requestDict['dockerImageNamespace'] = requestDict['ownerName']
+	requestDict['dockerImageRepo'] = mapping['dockerImageNamespace']+'/'+mapping['dockerImageName']
+
     return requestDict
 
 def main(requestData):
@@ -34,9 +36,8 @@ def main(requestData):
     try:
         
         repContMapping = RepoContainerMapping()
-        repContMapping.saveMapping(requestDataDict)
-        repContMapping.printAllRecords()
-
+        repContMapping.checkMapping(requestDataDict)
+ 
         github.clone(requestDataDict['branchName'],requestDataDict['repoCloneUrl'],requestDataDict['localRepoPath'])
  
         portsUsed = docker.getPortsUsed(requestDataDict['dockerImageNamespace'],requestDataDict['dockerImageName'])

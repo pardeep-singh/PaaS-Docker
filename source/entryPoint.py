@@ -31,11 +31,12 @@ def filterRequestData(requestData):
     return requestDict
 
 def main(requestData):
-    requestDataDict = filterRequestData(requestData)
-    print(requestDataDict)
-    utility.removeDirIfExist(requestDataDict['localRepoPath'])
     
     try:
+        
+        requestDataDict = filterRequestData(requestData)
+        print(requestDataDict)
+        utility.removeDirIfExist(requestDataDict['localRepoPath'])
         
         repContMapping = RepoContainerMapping()
         (portsUsed,containerID) = repContMapping.getPortsNContainerID(requestDataDict)
@@ -44,11 +45,9 @@ def main(requestData):
 
         github.clone(requestDataDict['branchName'],requestDataDict['repoCloneUrl'],requestDataDict['localRepoPath'])
         
-        if len(containerID):
+        if containerID:
             docker.stopContainer(containerID)
             docker.removeContainer(containerID)
- 
-#        portsUsed = docker.getPortsUsed(requestDataDict['dockerImageNamespace'],requestDataDict['dockerImageName'])
  
         buildResponse = docker.buildImage(requestDataDict['localRepoPath'],requestDataDict['dockerImageRepo'])
         print(buildResponse)

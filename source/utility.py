@@ -6,6 +6,7 @@ import shutil
 import os
 import json
 from os.path import expanduser
+from .RepoContainerMapping import RepoContainerMapping
 
 def load_dockerConfig():
 	with open('dockerConfig.json') as config_file:

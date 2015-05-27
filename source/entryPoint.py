@@ -57,7 +57,7 @@ def main(requestData):
         print("New Ports:",portsToBeUsed)
  
         containerID = docker.createContainer(requestDataDict['dockerImageRepo'],portsToBeUsed)
-        repContMapping.addPortsNContainerID(portsToBeUsed,containerID)
+        repContMapping.addPortsNContainerID(requestDataDict['dockerImageRepo'],portsToBeUsed,containerID)
         
         
         return jsonify(success=True),200

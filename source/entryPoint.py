@@ -22,7 +22,7 @@ def filterRequestData(requestData):
     requestDict['ownerName'] = requestDict['ownerName'].replace('-','_')
     requestDict['repoName'] = requestDict['repoName'].lower()
     
-    requestDict['generatedBranchName'] = utility.verifyBranchName(requestDict['branchName'])
+    requestDict['generatedBranchName'] = utility.verifyBranchName(requestDict['ownerName'],requestDict['repoName'],requestDict['branchName'])
 
     requestDict['dockerImageName'] = requestDict['repoName']+'_'+requestDict['generatedBranchName']
     requestDict['dockerImageNamespace'] = requestDict['ownerName']

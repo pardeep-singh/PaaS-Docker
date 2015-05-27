@@ -62,14 +62,19 @@ def getPorts(portsUsed,localRepoPath):
 def branchNameGenerator(size=6, chars=string.ascii_lowercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
     
-def verifyBranchName(branchName):
-    branchNameRegex = "^[a-z0-9_.-]+$"
-    branchNameValidator = re.compile(branchNameRegex)
-    if branchNameValidator.match(branchName):
-        return branchName
+def verifyBranchName(ownerName,repoName,branchName):
+    repContMapping = RepoContainerMapping()
+    mapping = repContMapping.getMapping({'ownerName':ownerName,'repoName':repoName,'branchName':branchName})
+    print("verifyng branch Name:",mapping)
+    if mapping:
+        return mapping['generatedBranchName']
     else:
-        generatedBranchName = ''
-        repContMapping = RepoContainerMapping()
-        while repContMapping.getMapping({'generatedBranchName':generatedBranchName}):
-            generatedBranchName = branchNameGenerator             
-        return generatedBranchName 
+        branchNameRegex = "^[a-z0-9_.-]+$"
+        branchNameValidator = re.compile(branchNameRegex)
+        if branchNameValidator.match(branchName):
+            return branchName
+        else:
+            generatedBranchName = branchNameGenerator()
+            while repContMapping.getMapping({'generatedBranchName':generatedBranchName}):
+                generatedBranchName = branchNameGenerator()             
+            return generatedBranchName 

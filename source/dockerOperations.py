@@ -27,7 +27,7 @@ def stopContainer(containerID):
 	
 def removeContainer(containerID):
 	conn = getDockerConn()
-	conn.remove(containerID)
+	conn.remove_container(containerID)
 	
 def buildImage(localRepoPath,dockerImageRepo):
 	conn = getDockerConn()

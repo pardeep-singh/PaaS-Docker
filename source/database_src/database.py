@@ -20,4 +20,4 @@ class DataBase:
             for key in newRecord:
                  oldRecord[key] = newRecord[key]
             print("New Record:",oldRecord)
-            self.db.coll.update({'_id':oldRecord['_id']},oldRecord)
+            self.db[collectionName].update({'_id':oldRecord['_id']},oldRecord)

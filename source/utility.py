@@ -53,8 +53,7 @@ def getExposedPortNumber(dockerFilePath):
 def getPorts(portsUsed,localRepoPath):
     portToBeUsed = {}
     if len(portsUsed):
-        portToBeUsed['publicPort'] = portsUsed[0]['PublicPort']
-        portToBeUsed['privatePort'] = portsUsed[0]['PrivatePort']
+        portToBeUsed = portsUsed
     else:
         portToBeUsed['publicPort'] = getAvailablePort()
         portToBeUsed['privatePort'] = int(getExposedPortNumber(localRepoPath+'/Dockerfile'))
@@ -69,4 +68,8 @@ def verifyBranchName(branchName):
     if branchNameValidator.match(branchName):
         return branchName
     else:
-        return branchNameGenerator() 
+        generatedBranchName = ''
+        repContMapping = RepoContainerMapping()
+        while repContMapping.getMapping({'generatedBranchName':generatedBranchName}):
+            generatedBranchName = branchNameGenerator             
+        return generatedBranchName 

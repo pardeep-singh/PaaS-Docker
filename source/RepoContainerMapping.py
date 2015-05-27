@@ -24,7 +24,7 @@ class RepoContainerMapping:
 		if oldMapping:
 			return (oldMapping['portsMapping'],oldMapping['containerID'])
 		else:
-			self.dbConn.saveMapping(mapping)
+			self.saveMapping(mapping)
 			return ({},'')
 	
 	def addPortsNContainerID(self,dockerImageRepo,portsUsed,containerID):

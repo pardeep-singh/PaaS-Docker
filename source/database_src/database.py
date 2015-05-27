@@ -16,8 +16,8 @@ class DataBase:
 
         def updateRecord(self,collectionName,updateKey,newRecord):
             oldRecord = self.getRecord(collectionName,updateKey)
-            print(oldRecord)
+            print("Existing Record:",oldRecord)
             for key in newRecord:
                  oldRecord[key] = newRecord[key]
-            print(oldRecord)
+            print("New Record:",oldRecord)
             self.db.coll.update({'_id':oldRecord['_id']},oldRecord)

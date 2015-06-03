@@ -19,12 +19,12 @@ def github_hook():
 @app.errorhandler(500)
 def internal_error(error):
     print(error)
-    return "500 error",500
+    return jsonify(success=False,error=str(error)),500
 
 @app.errorhandler(404)
 def not_found(error):
     prit(error)
-    return "404 error",404
+    return jsonify(success=False,error=str(error)),404
 
 def load_config():
     with open('appConfig.json') as config_file:    

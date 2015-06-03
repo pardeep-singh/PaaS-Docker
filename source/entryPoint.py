@@ -3,6 +3,7 @@ from . import githubOperations as github
 from . import dockerOperations as docker
 import os
 from flask import jsonify
+from .RepoContainerMapping import RepoContainerMapping
 
 def filterRequestData(requestData):
     requestDict = {}
@@ -21,23 +22,43 @@ def filterRequestData(requestData):
     requestDict['ownerName'] = requestDict['ownerName'].replace('-','_')
     requestDict['repoName'] = requestDict['repoName'].lower()
     
-    requestDict['dockerImageName'] = requestDict['repoName']+'_'+utility.verifyBranchName(requestDict['branchName'])
+    requestDict['generatedBranchName'] = utility.verifyBranchName(requestDict['ownerName'],requestDict['repoName'],requestDict['branchName'])
+
+    requestDict['dockerImageName'] = requestDict['repoName']+'_'+requestDict['generatedBranchName']
     requestDict['dockerImageNamespace'] = requestDict['ownerName']
+    requestDict['dockerImageRepo'] = requestDict['dockerImageNamespace']+'/'+requestDict['dockerImageName']
+
     return requestDict
 
 def main(requestData):
-    requestDataDict = filterRequestData(requestData)
-    print(requestDataDict)
-    utility.removeDirIfExist(requestDataDict['localRepoPath'])
     
     try:
+        
+        requestDataDict = filterRequestData(requestData)
+        print(requestDataDict)
+        utility.removeDirIfExist(requestDataDict['localRepoPath'])
+        
+        repContMapping = RepoContainerMapping()
+        (portsUsed,containerID) = repContMapping.getPortsNContainerID(requestDataDict)
+
+        print("Ports Used:",portsUsed," Container Id:",containerID)
+
         github.clone(requestDataDict['branchName'],requestDataDict['repoCloneUrl'],requestDataDict['localRepoPath'])
-        portsUsed = docker.getPortsUsed(requestDataDict['dockerImageNamespace'],requestDataDict['dockerImageName'])
-        buildResponse = docker.buildImage(requestDataDict['localRepoPath'],requestDataDict['dockerImageNamespace'],requestDataDict['dockerImageName'])
+        
+        if containerID:
+            docker.stopContainer(containerID)
+            docker.removeContainer(containerID)
+ 
+        buildResponse = docker.buildImage(requestDataDict['localRepoPath'],requestDataDict['dockerImageRepo'])
         print(buildResponse)
+ 
         portsToBeUsed = utility.getPorts(portsUsed,requestDataDict['localRepoPath'])
-        print(portsToBeUsed)
-        docker.createContainer(requestDataDict['dockerImageNamespace'],requestDataDict['dockerImageName'],portsToBeUsed)
+        print("New Ports:",portsToBeUsed)
+ 
+        containerID = docker.createContainer(requestDataDict['dockerImageRepo'],portsToBeUsed)
+        repContMapping.addPortsNContainerID(requestDataDict['dockerImageRepo'],portsToBeUsed,containerID)
+        
+        
         return jsonify(success=True),200
     except OSError as osError:
         return jsonify(success=False,error=str(osError)),400

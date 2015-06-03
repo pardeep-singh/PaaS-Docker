@@ -21,23 +21,31 @@ def getPortsUsed(dockerImageNamespace,dockerImageName):
 			return portsUsed
 	return portsUsed
 	
-def buildImage(localRepoPath,dockerImageNamespace,dockerImageName):
+def stopContainer(containerID):
+	conn = getDockerConn()
+	conn.stop(containerID)
+	
+def removeContainer(containerID):
+	conn = getDockerConn()
+	conn.remove_container(containerID)
+	
+def buildImage(localRepoPath,dockerImageRepo):
 	conn = getDockerConn()
 	buildResponse = [line for line in conn.build(
-		path=localRepoPath,tag=dockerImageNamespace+'/'+dockerImageName,rm=True
+		path=localRepoPath,tag=dockerImageRepo,rm=True
 		)]
 	return buildResponse
 	
-def createContainer(dockerImageNamespace,dockerImageName,portsToBeUsed):
+def createContainer(dockerImageRepo,portsToBeUsed):
 	conn = getDockerConn()
 	container = conn.create_container(
-		image=dockerImageNamespace+'/'+dockerImageName,ports=[portsToBeUsed['privatePort']],
+		image=dockerImageRepo,ports=[portsToBeUsed['privatePort']],
 		host_config=docker.utils.create_host_config(
 			port_bindings={portsToBeUsed['privatePort']:('0.0.0.0',portsToBeUsed['publicPort'])}
 			)
 		)
 	print(container)
 	conn.start(container)
-
+	return container['Id']
 	
 

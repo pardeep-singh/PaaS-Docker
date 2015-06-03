@@ -6,6 +6,7 @@ import shutil
 import os
 import json
 from os.path import expanduser
+from .RepoContainerMapping import RepoContainerMapping
 
 def load_dockerConfig():
 	with open('dockerConfig.json') as config_file:
@@ -53,8 +54,7 @@ def getExposedPortNumber(dockerFilePath):
 def getPorts(portsUsed,localRepoPath):
     portToBeUsed = {}
     if len(portsUsed):
-        portToBeUsed['publicPort'] = portsUsed[0]['PublicPort']
-        portToBeUsed['privatePort'] = portsUsed[0]['PrivatePort']
+        portToBeUsed = portsUsed
     else:
         portToBeUsed['publicPort'] = getAvailablePort()
         portToBeUsed['privatePort'] = int(getExposedPortNumber(localRepoPath+'/Dockerfile'))
@@ -63,10 +63,19 @@ def getPorts(portsUsed,localRepoPath):
 def branchNameGenerator(size=6, chars=string.ascii_lowercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
     
-def verifyBranchName(branchName):
-    branchNameRegex = "^[a-z0-9_.-]+$"
-    branchNameValidator = re.compile(branchNameRegex)
-    if branchNameValidator.match(branchName):
-        return branchName
+def verifyBranchName(ownerName,repoName,branchName):
+    repContMapping = RepoContainerMapping()
+    mapping = repContMapping.getMapping({'ownerName':ownerName,'repoName':repoName,'branchName':branchName})
+    print("verifyng branch Name:",mapping)
+    if mapping:
+        return mapping['generatedBranchName']
     else:
-        return branchNameGenerator() 
+        branchNameRegex = "^[a-z0-9_.-]+$"
+        branchNameValidator = re.compile(branchNameRegex)
+        if branchNameValidator.match(branchName):
+            return branchName
+        else:
+            generatedBranchName = branchNameGenerator()
+            while repContMapping.getMapping({'generatedBranchName':generatedBranchName}):
+                generatedBranchName = branchNameGenerator()             
+            return generatedBranchName 

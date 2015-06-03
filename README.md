@@ -14,12 +14,10 @@ PaaS-Docker is compatible with Python version 2 and 3; and require Flask,Docker,
 
 PaaS-Docker currently supports linux enviroments.
 
-Install Flask
+Install Project dependencies
 
-    pip install flask
-Install Docker-py
+    pip install -r requirements.txt
 
-    pip install docker-py
 Install docker and git depending upon your enviroment.
 
 ### Usage <hr>

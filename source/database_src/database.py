@@ -21,3 +21,6 @@ class DataBase:
                  oldRecord[key] = newRecord[key]
             print("New Record:",oldRecord)
             self.db[collectionName].update({'_id':oldRecord['_id']},oldRecord)
+
+        def updateRecordValues(self,collectionName,record):
+            self.db[collectionName].update({'_id':record['_id']},record)

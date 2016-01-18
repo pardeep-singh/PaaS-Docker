@@ -47,5 +47,36 @@ def createContainer(dockerImageRepo,portsToBeUsed):
 	print(container)
 	conn.start(container)
 	return container['Id']
+
+## wordpress poc
+def createWordPressContainer(systemPort,systemRepoPath,dbName):
+	conn = getDockerConn()
+	container = conn.create_container(
+		image="phpwithmysql:v2",ports=[80],volumes=["/var/www/html"],environment=["WORDPRESS_DB_PASSWORD=password"],
+		host_config=docker.utils.create_host_config(
+			port_bindings={80:('0.0.0.0',systemPort)},
+			binds={systemRepoPath:{'bind':'/var/www/html'}},
+			links={(dbName,'mysql')}
+			)
+	)
+	conn.start(container['Id'])
+	return container['Id']
+
+def createMysqlContainer(systemDBpath):
+	conn = getDockerConn()
+	container = conn.create_container(
+		image="mysql:5.7",detach=True,volumes=["/var/lib/mysql"],
+		environment=["MYSQL_ROOT_PASSWORD=password","MYSQL_DATABASE=wordpress","MYSQL_USERNAME=root"],
+		host_config=docker.utils.create_host_config(
+			binds={systemDBpath:{'bind':'/var/lib/mysql'}}
+			)
+	)
+	conn.start(container['Id'])
+	return container['Id']
+
+def inspectContainer(containerID):
+	conn = getDockerConn()
+	containerInfo = conn.inspect_container(containerID)
+	return containerInfo
 	
 

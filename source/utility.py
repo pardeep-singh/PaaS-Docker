@@ -79,3 +79,11 @@ def verifyBranchName(ownerName,repoName,branchName):
             while repContMapping.getMapping({'generatedBranchName':generatedBranchName}):
                 generatedBranchName = branchNameGenerator()             
             return generatedBranchName 
+
+## wordpress poc
+
+def getWordPressLocalRepoPath():
+    return createIfDirDoesntExist(getSystemHomePath()+'/wordpressData/sites/')
+
+def getMysqlDBPath():
+    return createIfDirDoesntExist(getSystemHomePath()+'/wordpressData/db/')

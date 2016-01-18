@@ -16,6 +16,11 @@ def github_hook():
     requestData = request.json
     return entryPoint.main(requestData)
 
+@app.route('/wordpress',methods=['POST'])
+def wordpress():
+    requestData = request.json
+    return entryPoint.wordpressMain(requestData)
+
 @app.errorhandler(500)
 def internal_error(error):
     print(error)
